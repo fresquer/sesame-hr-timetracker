@@ -28,7 +28,7 @@ export const TimeTracker = ({ trackingInfo, updateEntryInfo }: Props) => {
   };
 
   const cleanIntervals = () => {
-    let interval_id = window.setInterval(() => {}, 99999);
+    let interval_id = window.setInterval(() => { }, 99999);
     for (var i = 0; i < interval_id; i++) window.clearInterval(i);
   };
 

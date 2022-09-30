@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+/* eslint-disable react/no-children-prop */
+/* eslint-disable react/jsx-no-comment-textnodes */
+import { Children, useEffect, useState } from "react";
 import { TrankInfoModel, UserName } from "../../interfaces";
 import { getTrackingInfo } from "../../services/api";
 import { calculateTime } from "../../util/time-utils";
@@ -38,14 +40,10 @@ export const AppHeader = () => {
           <>
             <TimeTracker
               trackingInfo={entryInfo}
-              updateEntryInfo={(entry: TrankInfoModel) =>
-                updateEntryInfo(entry)
-              }
-            ></TimeTracker>
+              updateEntryInfo={(entry: TrankInfoModel) => updateEntryInfo(entry)} children={undefined}></TimeTracker>
             <UserMenu
               trackingInfo={entryInfo}
-              workStatus={workStatus}
-            ></UserMenu>
+              workStatus={workStatus} children={undefined}></UserMenu>
           </>
         ) : (
           <p className="loading">Cargando datos</p>
