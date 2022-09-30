@@ -1,16 +1,18 @@
 import { DateTime, DurationObjectUnits } from 'luxon'
 import { TrankInfoModel } from '../interfaces';
 
-export const calculateTime = (start: string): string => {
-    const diff = getDiff(start, DateTime.local());
+export const calculateTime = (start: string, end?: string): string => {
+    const endTime = end ? end : DateTime.now().toISO();
+    const diff = getDiff(start, endTime);
     // Ignore because seems a bug with Luxon typing
     // @ts-ignore
     return diff.toFormat('hh:mm:ss')
 }
 
-export const getDiff = (start: string, end: DateTime): DurationObjectUnits => {
+export const getDiff = (start: string, end: string): DurationObjectUnits => {
     const timeStart = DateTime.fromISO(start)
-    return end.diff(timeStart, ["hours", "minutes", "seconds"])
+    const timeEnd = DateTime.fromISO(end)
+    return timeEnd.diff(timeStart, ["hours", "minutes", "seconds"])
 }
 
 export const timeInterval = (start: string, end: string, secs: number): string => {

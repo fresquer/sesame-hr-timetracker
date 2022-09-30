@@ -21,7 +21,6 @@ export const TimeTracker = ({ trackingInfo, updateEntryInfo }: Props) => {
         const res = await clockIn(trackingInfo?.employee?.id)
         updateEntryInfo(res.data)
 
-
         let secs = 0;
         setIntervalID(setInterval(() => {
             secs += 1
@@ -35,24 +34,35 @@ export const TimeTracker = ({ trackingInfo, updateEntryInfo }: Props) => {
         clearInterval(intervalID)
     }
 
+
+
     const handleEndTracking = async (): Promise<void> => {
         setTrackingActive(false);
         const res = await clockOut(trackingInfo.employee.id)
-        updateEntryInfo(res.data)
+        // updateEntryInfo(res.data)
         clearInterval(intervalID)
-
-        
     }
 
     useEffect(() => {
         if (trackingInfo) {
             const status: boolean = trackingInfo.employee.workStatus === 'online' ? true : false;
             setTrackingActive(status)
-            const time: string = calculateTime(trackingInfo.workEntryIn?.date)
-            setTrackingTime(time)
 
             if (trackingActive) {
+                const time: string = calculateTime(trackingInfo.workEntryIn?.date, '')
+                setTrackingTime(time)
 
+                let secs = 0;
+                setIntervalID(setInterval(() => {
+                    secs += 1
+                    const t: string = timeInterval(trackingInfo.workEntryIn?.date, trackingInfo.workEntryOut?.date, secs)
+                    console.log("🚀 ~ file: timetracker.tsx ~ line 27 ~ setInterval ~ t", t, secs)
+                    setTrackingTime(t)
+                }, 1000))
+
+            } else {
+                const time: string = calculateTime(trackingInfo.workEntryIn?.date, trackingInfo.workEntryOut?.date)
+                setTrackingTime(time)
             }
 
         }
