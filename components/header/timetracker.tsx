@@ -15,35 +15,32 @@ type Props = {
 export const TimeTracker = ({ trackingInfo, updateEntryInfo }: Props) => {
     const [trackingActive, setTrackingActive] = useState(false)
     const [trackingTime, setTrackingTime] = useState('00:00:00')
-    const [intervalID, setIntervalID] = useState<SetStateAction<any> | null>(null)
-    const [intervalID2, setIntervalID2] = useState<SetStateAction<any> | null>(null)
 
     const handleStartTracking = async (): Promise<void> => {
         setTrackingActive(true);
         const res = await clockIn(trackingInfo?.employee?.id)
         updateEntryInfo(res.data)
-
-        if (intervalID2) clearInterval(intervalID2);
         let secs = 0;
-        setIntervalID(setInterval(() => {
-            secs += 1
-            const t: string = timeInterval(trackingInfo.workEntryIn?.date, trackingInfo.workEntryOut?.date, secs)
-            console.log("🚀 ~ file: timetracker.tsx ~ line 27 ~ setInterval ~ t", t, secs)
+
+        setInterval(() => {
+            const t: string = timeInterval(trackingInfo.workEntryIn?.date, secs)
             setTrackingTime(t)
-        }, 1000))
+        }, 1000)
     }
 
-    const handlePauseTracking = (): void => {
-        clearInterval(intervalID)
+
+    const cleanIntervals = () => {
+        let interval_id = window.setInterval(() => { }, 99999);
+        for (var i = 0; i < interval_id; i++)
+            window.clearInterval(i);
     }
 
 
 
     const handleEndTracking = async (): Promise<void> => {
         setTrackingActive(false);
-        const res = await clockOut(trackingInfo.employee.id)
-        // updateEntryInfo(res.data)
-        if (intervalID) clearInterval(intervalID)
+        await clockOut(trackingInfo.employee.id)
+        cleanIntervals()
     }
 
     useEffect(() => {
@@ -54,23 +51,16 @@ export const TimeTracker = ({ trackingInfo, updateEntryInfo }: Props) => {
             if (trackingActive) {
                 const time: string = calculateTime(trackingInfo.workEntryIn?.date, '')
                 setTrackingTime(time)
-
                 let secs = 0;
-                setIntervalID2(setInterval(() => {
-                    secs += 1
-                    const t: string = timeInterval(trackingInfo.workEntryIn?.date, trackingInfo.workEntryOut?.date, secs)
-                    console.log("🚀 ~ file: timetracker.tsx ~ line 27 ~ setInterval ~ t", t, secs)
+                setInterval(() => {
+                    const t: string = timeInterval(trackingInfo.workEntryIn?.date, secs)
                     setTrackingTime(t)
-                }, 1000))
+                }, 1000)
 
             } else {
                 const time: string = calculateTime(trackingInfo.workEntryIn?.date, trackingInfo.workEntryOut?.date)
                 setTrackingTime(time)
             }
-            return () => {
-                if (intervalID) clearInterval(intervalID)
-                if (intervalID2) clearInterval(intervalID2)
-            };
         }
     }, [trackingInfo])
 
@@ -86,7 +76,7 @@ export const TimeTracker = ({ trackingInfo, updateEntryInfo }: Props) => {
                         <button className="start" onClick={() => handleStartTracking()}>Entrar</button>
                         :
                         <>
-                            <button className="pause" onClick={() => handlePauseTracking()}>Pausar</button>
+                            <button className="pause">Pausar</button>
                             <button className="end" onClick={() => handleEndTracking()}>Salir</button>
                         </>
                 }
