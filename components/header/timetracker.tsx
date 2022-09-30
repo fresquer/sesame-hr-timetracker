@@ -16,13 +16,14 @@ export const TimeTracker = ({ trackingInfo, updateEntryInfo }: Props) => {
     const [trackingActive, setTrackingActive] = useState(false)
     const [trackingTime, setTrackingTime] = useState('00:00:00')
     const [intervalID, setIntervalID] = useState<SetStateAction<any> | null>(null)
+    const [intervalID2, setIntervalID2] = useState<SetStateAction<any> | null>(null)
 
     const handleStartTracking = async (): Promise<void> => {
         setTrackingActive(true);
         const res = await clockIn(trackingInfo?.employee?.id)
         updateEntryInfo(res.data)
 
-        if (intervalID) clearInterval(intervalID);
+        if (intervalID2) clearInterval(intervalID2);
         let secs = 0;
         setIntervalID(setInterval(() => {
             secs += 1
@@ -42,7 +43,7 @@ export const TimeTracker = ({ trackingInfo, updateEntryInfo }: Props) => {
         setTrackingActive(false);
         const res = await clockOut(trackingInfo.employee.id)
         // updateEntryInfo(res.data)
-        clearInterval(intervalID)
+        if (intervalID) clearInterval(intervalID)
     }
 
     useEffect(() => {
@@ -55,7 +56,7 @@ export const TimeTracker = ({ trackingInfo, updateEntryInfo }: Props) => {
                 setTrackingTime(time)
 
                 let secs = 0;
-                setIntervalID(setInterval(() => {
+                setIntervalID2(setInterval(() => {
                     secs += 1
                     const t: string = timeInterval(trackingInfo.workEntryIn?.date, trackingInfo.workEntryOut?.date, secs)
                     console.log("🚀 ~ file: timetracker.tsx ~ line 27 ~ setInterval ~ t", t, secs)
@@ -66,7 +67,10 @@ export const TimeTracker = ({ trackingInfo, updateEntryInfo }: Props) => {
                 const time: string = calculateTime(trackingInfo.workEntryIn?.date, trackingInfo.workEntryOut?.date)
                 setTrackingTime(time)
             }
-
+            return () => {
+                if (intervalID) clearInterval(intervalID)
+                if (intervalID2) clearInterval(intervalID2)
+            };
         }
     }, [trackingInfo])
 
