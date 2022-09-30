@@ -50,6 +50,7 @@ export const TimeTracker = ({ trackingInfo, updateEntryInfo }: Props) => {
         let secs = 0;
         setInterval(() => {
           const t: string = timeInterval(trackingInfo.workEntryIn?.date, secs);
+          secs += 1
           setTrackingTime(t);
         }, 1000);
       } else {
