@@ -7,7 +7,7 @@ import { calculateTime, getDiff, timeInterval } from "../../util/time-utils"
 type Props = {
     trackingInfo: TrankInfoModel,
     updateEntryInfo: Function,
-    children: React.ReactNode; 
+    children: React.ReactNode;
 }
 
 
@@ -21,14 +21,7 @@ export const TimeTracker = ({ trackingInfo, updateEntryInfo }: Props) => {
         const res = await clockIn(trackingInfo?.employee?.id)
         updateEntryInfo(res.data)
 
-
-        let secs = 0;
-        setIntervalID(setInterval(() => {
-            secs += 1
-            const t: string = timeInterval(trackingInfo.workEntryIn?.date, trackingInfo.workEntryOut?.date, secs)
-            console.log("🚀 ~ file: timetracker.tsx ~ line 27 ~ setInterval ~ t", t, secs)
-            setTrackingTime(t)
-        }, 1000))
+        countdownMode()
     }
 
     const handlePauseTracking = (): void => {
@@ -42,14 +35,26 @@ export const TimeTracker = ({ trackingInfo, updateEntryInfo }: Props) => {
         clearInterval(intervalID)
     }
 
+    const countdownMode = () => {
+        let secs = 0;
+        setIntervalID(setInterval(() => {
+            secs += 1
+            const t: string = timeInterval(trackingInfo.workEntryIn?.date, trackingInfo.workEntryOut?.date, secs)
+            console.log("🚀 ~ file: timetracker.tsx ~ line 27 ~ setInterval ~ t", t, secs)
+            setTrackingTime(t)
+        }, 1000))
+    }
+
     useEffect(() => {
         if (trackingInfo) {
             const status: boolean = trackingInfo.employee.workStatus === 'online' ? true : false;
             setTrackingActive(status)
-
-
             const time: string = calculateTime(trackingInfo.workEntryIn?.date)
             setTrackingTime(time)
+
+            if (trackingActive) {
+                countdownMode()
+            }
         }
     }, [trackingInfo])
 

@@ -15,7 +15,8 @@ export const getDiff = (start: string, end: DateTime): DurationObjectUnits => {
 
 export const timeInterval = (start: string, end: string, secs: number): string => {
     const timeStart = DateTime.fromISO(start)
-    let InittimeEnd = DateTime.fromISO(end)
+    let InittimeEnd = DateTime.local()
+    // let InittimeEnd = DateTime.fromISO(end)
     InittimeEnd = InittimeEnd.plus({ seconds: secs })
     const diff = InittimeEnd.diff(timeStart, ["hours", "minutes", "seconds"])
     return diff.toFormat('hh:mm:ss')
