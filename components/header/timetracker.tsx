@@ -1,9 +1,7 @@
-import { DurationObjectUnits } from "luxon";
-import { SetStateAction, useEffect, useState } from "react";
-import { clearInterval } from "timers";
+import { useEffect, useState } from "react";
 import { TrankInfoModel } from "../../interfaces";
 import { clockIn, clockOut } from "../../services/api";
-import { calculateTime, getDiff, timeInterval } from "../../util/time-utils";
+import { calculateTime, timeInterval } from "../../util/time-utils";
 
 type Props = {
   trackingInfo: TrankInfoModel;
@@ -44,6 +42,7 @@ export const TimeTracker = ({ trackingInfo, updateEntryInfo }: Props) => {
         trackingInfo.employee.workStatus === "online" ? true : false;
       setTrackingActive(status);
 
+      // Notda: Funcion que mira si esta el usuario online o offline
       if (trackingActive) {
         const time: string = calculateTime(trackingInfo.workEntryIn?.date, "");
         setTrackingTime(time);

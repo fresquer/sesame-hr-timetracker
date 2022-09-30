@@ -1,10 +1,14 @@
 import { DateTime, DurationObjectUnits } from "luxon";
 import { TrankInfoModel } from "../interfaces";
 
+// Nota: He decidido optar por la libreria "Luxon", heredera de Momment.js, para realizar los calculos de tiempo
+// Aunque si es cierto que se puede hacer todo con el objeto navitvo Date, creo que el uso del dia a dia aporta muchismas ventajas
+// y rapidez de operaciones de tiempo.
+
 export const calculateTime = (start: string, end?: string): string => {
   const endTime = end ? end : DateTime.now().toISO();
   const diff = getDiff(start, endTime);
-  // Ignore because seems a bug with Luxon typing
+  // He igonorado esta linea ya que da un error de typing, que parece un bug de Luxon
   // @ts-ignore
   return diff.toFormat("hh:mm:ss");
 };
