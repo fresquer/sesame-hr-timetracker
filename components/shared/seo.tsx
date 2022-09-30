@@ -1,9 +1,9 @@
-import Head from "next/head"
+import Head from "next/head";
 
 export const Seo = () => {
-    return (
-        <Head>
-            <title>Sesame HR Time Tracker</title>
-        </Head>
-    )
-}
+  return (
+    <Head>
+      <title>Sesame HR Time Tracker</title>
+    </Head>
+  );
+};
