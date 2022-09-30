@@ -13,18 +13,11 @@ export const AppHeader = () => {
 
   const getInfo = async () => {
     const resInfo = await getTrackingInfo();
-    // console.log("🚀 ~ file: header.tsx ~ line 14 ~ getInfo ~ resInfo", resInfo.data[0])
     setEntryInfo(resInfo);
-    console.log("🚀 ~ file: header.tsx ~ line 18 ~ getInfo ~ resInfo", resInfo);
     setWorkStatus(resInfo.employee.workStatus);
-    // calculateTime(resInfo.data[0].workEntryIn.date, resInfo.data[0].workEntryOut.date)
   };
 
   const updateEntryInfo = (entry: TrankInfoModel) => {
-    console.log(
-      "🚀 ~ file: header.tsx ~ line 23 ~ updateEntryInfo ~ entry",
-      entry
-    );
     setEntryInfo(entry);
     setWorkStatus(entry.employee.workStatus);
   };
