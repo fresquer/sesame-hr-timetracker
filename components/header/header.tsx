@@ -8,7 +8,7 @@ import { UserMenu } from "./user-menu"
 export const AppHeader = () => {
 
 
-    const [entryInfo, setEntryInfo] = useState(null)
+    const [entryInfo, setEntryInfo] = useState<TrankInfoModel | null>(null)
     const [workStatus, setWorkStatus] = useState('')
 
     const getInfo = async () => {

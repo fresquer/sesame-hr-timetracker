@@ -3,7 +3,8 @@ import { TrankInfoModel, UserName } from "../../interfaces"
 
 type Props = {
     trackingInfo: TrankInfoModel,
-    workStatus: string
+    workStatus: string,
+    children: React.ReactNode;
 }
 
 export const UserMenu = ({ trackingInfo, workStatus }: Props) => {

@@ -3,7 +3,8 @@ import { TrankInfoModel } from '../interfaces';
 
 export const calculateTime = (start: string): string => {
     const diff = getDiff(start, DateTime.local());
-    // console.log("🚀 ~ file: time-utils.ts ~ line 6 ~ calculateTime ~ diff", diff.toMillis())
+    // Ignore because seems a bug with Luxon typing
+    // @ts-ignore
     return diff.toFormat('hh:mm:ss')
 }
 

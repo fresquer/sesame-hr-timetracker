@@ -1,19 +1,20 @@
 import { DurationObjectUnits } from "luxon"
-import { useEffect, useState } from "react"
+import { SetStateAction, useEffect, useState } from "react"
 import { TrankInfoModel } from "../../interfaces"
 import { clockIn, clockOut } from "../../services/api"
 import { calculateTime, getDiff, timeInterval } from "../../util/time-utils"
 
 type Props = {
     trackingInfo: TrankInfoModel,
-    updateEntryInfo: Function
+    updateEntryInfo: Function,
+    children: React.ReactNode; 
 }
 
 
 export const TimeTracker = ({ trackingInfo, updateEntryInfo }: Props) => {
     const [trackingActive, setTrackingActive] = useState(false)
     const [trackingTime, setTrackingTime] = useState('00:00:00')
-    const [intervalID, setIntervalID] = useState(null)
+    const [intervalID, setIntervalID] = useState<SetStateAction<any> | null>(null)
 
     const handleStartTracking = async (): Promise<void> => {
         setTrackingActive(true);
