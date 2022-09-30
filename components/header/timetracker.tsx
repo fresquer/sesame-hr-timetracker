@@ -1,5 +1,6 @@
 import { DurationObjectUnits } from "luxon"
 import { SetStateAction, useEffect, useState } from "react"
+import { clearInterval } from "timers"
 import { TrankInfoModel } from "../../interfaces"
 import { clockIn, clockOut } from "../../services/api"
 import { calculateTime, getDiff, timeInterval } from "../../util/time-utils"
@@ -21,6 +22,7 @@ export const TimeTracker = ({ trackingInfo, updateEntryInfo }: Props) => {
         const res = await clockIn(trackingInfo?.employee?.id)
         updateEntryInfo(res.data)
 
+        if (intervalID) clearInterval(intervalID);
         let secs = 0;
         setIntervalID(setInterval(() => {
             secs += 1
