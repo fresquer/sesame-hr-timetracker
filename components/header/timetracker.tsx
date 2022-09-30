@@ -21,7 +21,14 @@ export const TimeTracker = ({ trackingInfo, updateEntryInfo }: Props) => {
         const res = await clockIn(trackingInfo?.employee?.id)
         updateEntryInfo(res.data)
 
-        countdownMode()
+
+        let secs = 0;
+        setIntervalID(setInterval(() => {
+            secs += 1
+            const t: string = timeInterval(trackingInfo.workEntryIn?.date, trackingInfo.workEntryOut?.date, secs)
+            console.log("🚀 ~ file: timetracker.tsx ~ line 27 ~ setInterval ~ t", t, secs)
+            setTrackingTime(t)
+        }, 1000))
     }
 
     const handlePauseTracking = (): void => {
@@ -33,16 +40,8 @@ export const TimeTracker = ({ trackingInfo, updateEntryInfo }: Props) => {
         const res = await clockOut(trackingInfo.employee.id)
         updateEntryInfo(res.data)
         clearInterval(intervalID)
-    }
 
-    const countdownMode = () => {
-        let secs = 0;
-        setIntervalID(setInterval(() => {
-            secs += 1
-            const t: string = timeInterval(trackingInfo.workEntryIn?.date, trackingInfo.workEntryOut?.date, secs)
-            console.log("🚀 ~ file: timetracker.tsx ~ line 27 ~ setInterval ~ t", t, secs)
-            setTrackingTime(t)
-        }, 1000))
+        
     }
 
     useEffect(() => {
@@ -53,8 +52,9 @@ export const TimeTracker = ({ trackingInfo, updateEntryInfo }: Props) => {
             setTrackingTime(time)
 
             if (trackingActive) {
-                countdownMode()
+
             }
+
         }
     }, [trackingInfo])
 
