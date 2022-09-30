@@ -1,11 +1,23 @@
 header  {
     display: flex;
-    justify-content: end;
-    
+    justify-content: flex-end;
+    align-items: center;
     .wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         // Datos sacados del Adobe XD
-        background-color: #B5B5B5;
+        background-color: #e7e7e7;
         border-radius: 100px;
         display: flex;
+        padding: 8px 32px;
+        // For loading state
+        min-width: 470px;
+        min-height: 60px;
+    }
+
+    .loading {
+        font-weight: bold;
+        color: #c0c0c0;
     }
 }

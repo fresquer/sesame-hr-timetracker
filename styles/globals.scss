@@ -1,10 +1,13 @@
+
+:root {
+  --font: 'Inter', sans-serif;
+}
+
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-    background-color: #F4F4F4;
 }
 
 a {
@@ -14,8 +17,17 @@ a {
 
 * {
   box-sizing: border-box;
+  font-family: var(--font);
+}
+
+p {
+  margin: 0;
 }
 
 #index {
   padding: 25px;
+}
+
+.flex {
+  display: flex;
 }
